@@ -32,6 +32,7 @@ class Component extends DCLogic {
   constructor(props) { super(props); this.state = { sym: 0, tr: 0, anos: 7 }; }
   componentDidMount() {
     this.startMotion();
+    this.setupBar();
     var me = this; setTimeout(function () { me.drawLink(false); }, 600);
     if (typeof IntersectionObserver === 'undefined') return;
     var self = this;
@@ -47,8 +48,24 @@ class Component extends DCLogic {
     clearInterval(this.cyc);
     this.stopMotion();
     if (this.io) this.io.disconnect();
+    if (this.ioB) this.ioB.disconnect();
     if (this.ioA) this.ioA.disconnect();
     if (this.tm) clearInterval(this.tm);
+  }
+  setupBar() {
+    var bar = document.querySelector('.mbar'), cta = document.querySelector('#topo .btn');
+    if (!bar || !cta || typeof IntersectionObserver === 'undefined') return;
+    var ends = document.querySelectorAll('[data-mbar-end]'), past = false, vis = 0, seen = new Set();
+    var upd = function () { bar.classList.toggle('on', past && seen.size === 0); };
+    this.ioB = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.target === cta) past = !e.isIntersecting && e.boundingClientRect.top < 0;
+        else if (e.isIntersecting) seen.add(e.target); else seen.delete(e.target);
+      });
+      upd();
+    });
+    this.ioB.observe(cta);
+    ends.forEach(function (e) { this.ioB.observe(e); }, this);
   }
   startMotion() {
     var self = this, n = 0;
@@ -100,8 +117,8 @@ class Component extends DCLogic {
       .from('#topo .clip .bk', { scaleY: .2, transformOrigin: '50% 100%', autoAlpha: 0, duration: 1.2, ease: 'elastic.out(1,.7)' }, .35)
       .from('#topo .ph', { yPercent: 28, scale: .94, autoAlpha: 0, duration: 1.3 }, .5)
       .from('#topo .fc', { scale: .4, autoAlpha: 0, duration: .9, ease: 'back.out(2)', stagger: .16 }, 1);
-    g.to('#topo .ph', { y: 70, ease: 'none', scrollTrigger: { trigger: '#topo', start: 'top top', end: 'bottom top', scrub: true } });
-    g.to('#topo .clip .bk', { y: 18, ease: 'none', scrollTrigger: { trigger: '#topo', start: 'top top', end: 'bottom top', scrub: true } });
+    if (!mob) g.to('#topo .ph', { y: 70, ease: 'none', scrollTrigger: { trigger: '#topo', start: 'top top', end: 'bottom top', scrub: true } });
+    if (!mob) g.to('#topo .clip .bk', { y: 18, ease: 'none', scrollTrigger: { trigger: '#topo', start: 'top top', end: 'bottom top', scrub: true } });
     if (!mob) {
       $('#topo .fc').forEach(function (c, i) { g.to(c, { y: i % 2 ? 12 : -12, rotation: i % 2 ? 1.2 : -1.2, duration: 2.4 + i * .5, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.8 }); });
       var layers = [['#topo .ph', -14], ['#topo .clip .bk', 8]].map(function (l) { return [g.quickTo(l[0], 'x', { duration: .8, ease: 'power3' }), l[1]]; });

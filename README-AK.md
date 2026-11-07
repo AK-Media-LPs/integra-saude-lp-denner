@@ -29,7 +29,9 @@ sem Build/Install Command, sem Output Directory.
 - Origem: `integra-saude-lps.zip`, pasta `lp-denner/` (projeto "Denner-verde-agua" no Claude Design). O zip juntava as duas LPs em um repo; aqui cada LP é um repo, conforme o padrão AK.
 - `<head>`: adicionados `canonical`, `og:url`, `og:image` absoluta com dimensões, `twitter:title`, `twitter:description` e `twitter:image`.
 - Adicionados `vercel.json`, `.gitignore` e este README.
-- Layout, copy, CSS e JS sem alteração.
+- Atualização pelo `integra-saude-lpsatt.zip`: no mobile, barra fixa de WhatsApp, topo reorganizado e parallax desligado.
+- `style.css` e `main.js` referenciados com `?v=` no `index.html`: `/assets/` tem cache imutável de 1 ano, então sem isso quem já abriu a página continuaria com os arquivos antigos. Trocar o valor de `?v=` a cada mudança nesses arquivos.
+- Fora o acima, layout, copy, CSS e JS como vieram do zip.
 
 ## Pendências
 

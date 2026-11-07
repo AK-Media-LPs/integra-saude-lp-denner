@@ -25,13 +25,13 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/geist-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/geist-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=20261106b">
 <!-- TRACKING HEAD (GTM / Meta Pixel): colar abaixo antes de publicar -->
 <!-- Nenhum código fornecido ainda. Inserir aqui o Meta Pixel e/ou GTM antes de publicar. -->
 <!-- /TRACKING HEAD -->
 <script src="assets/js/gsap.min.js" defer></script>
 <script src="assets/js/ScrollTrigger.min.js" defer></script>
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=20261106b" defer></script>
 </head>
 <body>
 <!-- TRACKING BODY (noscript do GTM, se houver) -->
@@ -39,7 +39,7 @@
 <!-- /TRACKING BODY -->
 <div style="background: #0F1210; color: #fff; font-family: var(--texto); overflow-x: clip; line-height: 1.5">
 
-<div style="position: sticky; top: 12px; z-index: 50; height: 0; padding: 0 20px">
+<div class="navw" style="position: sticky; top: 12px; z-index: 50; height: 0; padding: 0 20px">
 <nav aria-label="Seções da página" style="max-width: 1240px; margin: 0 auto; height: 60px; background: #0F1210; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 8px 0 22px; translate: 0 12px">
 <a href="#topo" aria-label="Integra Saúde, início da página" style="display: flex; align-items: center; flex: none"><img src="assets/img/logo-integra-saude-branco.svg" alt="Integra Saúde" style="display: block; height: 40px; width: auto"></a>
 <div class="navs" style="display: flex; gap: 6px">
@@ -53,6 +53,7 @@
 </nav>
 </div>
 
+<a class="mbar" href="https://wa.me/5586999596512?text=Ol%C3%A1%21%20Vim%20pela%20p%C3%A1gina%20do%20Dr.%20Denner%20e%20gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener"><span class="mbi"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 11.6a8.3 8.3 0 0 1-12.4 7.2L4 20l1.2-3.5A8.3 8.3 0 1 1 20 11.6z"></path></svg></span><span>Agendar consulta pelo WhatsApp</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
 <section id="topo" style="background: #fff; color: #141714; border-radius: 0 0 clamp(48px, 9vw, 130px) clamp(48px, 9vw, 130px); padding: 104px 20px 0; overflow: hidden">
 <div style="max-width: 1240px; margin: 0 auto">
 <p class="bk" style="margin: 0 auto 18px; text-align: center; font-size: 14px; color: #4C544E; max-width: 780px">Dr. Denner Soares Lima · MÉDICO · CRM-PI 5948 · RQE 5206 · RQE 5207</p>
@@ -65,6 +66,7 @@
 <p style="margin: 0 0 24px; font-size: 18px; color: #2B312D">Formigamento, dor ou um dedo que trava merecem atenção. Na consulta com o Dr. Denner, você entende o que está acontecendo e quais são as opções para o seu caso.</p>
 <a class="btn" href="https://wa.me/5586999596512?text=Ol%C3%A1%21%20Vim%20pela%20p%C3%A1gina%20do%20Dr.%20Denner%20e%20gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener" style="background: var(--verde); color: #141714"><span>Quero agendar minha consulta</span><span class="seta" style="background: #141714; color: #fff"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></span></a>
 <p style="margin: 14px 0 0; font-size: 15px; color: #4C544E">A conversa é pelo WhatsApp. Você tira suas dúvidas antes de marcar.</p>
+<p class="crm-m">Dr. Denner Soares Lima · MÉDICO · CRM-PI 5948 · RQE 5206 · RQE 5207</p>
 </div>
 <div style="position: relative">
 <div class="clip" style="padding-top: 8px">
@@ -91,7 +93,7 @@
 </section>
 
 <section id="sintomas" style="padding: clamp(64px, 8vw, 112px) 20px">
-<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap-reverse; gap: clamp(24px, 6vw, 80px); align-items: flex-start">
+<div class="sx" style="max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap-reverse; gap: clamp(24px, 6vw, 80px); align-items: flex-start">
 <div style="flex: 999 1 460px; min-width: 0">
 <p style="margin: 0 0 12px; font-size: 15px; font-weight: 500; color: var(--verde)">O que você tem sentido?</p>
 <h2 style="margin: 0 0 18px; font-family: var(--titulo); font-weight: 700; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.08; letter-spacing: -.015em">Nem sempre é só cansaço na mão</h2>
@@ -210,7 +212,7 @@
 </section>
 
 <section style="background: #fff; color: #141714; padding: 72px clamp(12px, 2vw, 20px) clamp(32px, 4vw, 56px)">
-<div class="ctag" style="max-width: 1240px; margin: 0 auto; background: var(--verde); border-radius: clamp(32px, 5vw, 64px); padding: 0 clamp(24px, 5vw, 72px)">
+<div class="ctag" data-mbar-end style="max-width: 1240px; margin: 0 auto; background: var(--verde); border-radius: clamp(32px, 5vw, 64px); padding: 0 clamp(24px, 5vw, 72px)">
 <div class="rv" style="flex: 1 1 auto; max-width: 660px; padding: clamp(36px, 5vw, 72px) 0">
 <h2 style="margin: 0 0 16px; font-family: var(--titulo); font-weight: 700; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.08; letter-spacing: -.015em">O próximo passo é entender o que está acontecendo</h2>
 <p style="margin: 0 0 26px; font-size: 19px">Fale pelo WhatsApp e agende sua consulta com o Dr. Denner.</p>
@@ -223,7 +225,7 @@
 </div>
 </section>
 
-<footer class="ft" style="position: relative; background: #0F1210; color: #fff; overflow: hidden; border-radius: clamp(40px, 7vw, 100px) clamp(40px, 7vw, 100px) 0 0; padding: clamp(48px, 6vw, 84px) 20px 0">
+<footer class="ft" data-mbar-end style="position: relative; background: #0F1210; color: #fff; overflow: hidden; border-radius: clamp(40px, 7vw, 100px) clamp(40px, 7vw, 100px) 0 0; padding: clamp(48px, 6vw, 84px) 20px 0">
 <svg class="hand ftm" viewBox="0 0 320 430" aria-hidden="true"><path d="M112 420 C112 385 106 356 90 332 C72 304 52 276 34 244 C24 226 44 208 60 222 C76 236 90 252 102 266 L94 112 C93 88 124 86 127 110 L136 214 L138 74 C138 50 172 50 172 74 L172 212 L186 92 C188 70 218 72 217 96 L207 222 L230 146 C236 126 262 132 258 154 L240 290 C236 330 226 372 226 420"></path><circle cx="110" cy="130" r="5" style="fill: var(--laranja)"></circle><circle cx="168" cy="382" r="5" style="fill: var(--verde)"></circle><circle cx="165" cy="290" r="5" style="fill: var(--laranja)"></circle><circle cx="84" cy="288" r="5" style="fill: var(--verde)"></circle><circle cx="200" cy="170" r="5" style="fill: var(--laranja)"></circle></svg>
 <div style="position: relative; max-width: 1240px; margin: 0 auto">
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; margin: 0 0 clamp(32px, 4vw, 56px)">
