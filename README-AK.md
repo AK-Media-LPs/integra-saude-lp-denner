@@ -11,7 +11,7 @@ Sem framework, sem bundler, sem build. O export já veio sem o runtime do Claude
 
 ```
 index.html            página
-assets/css/style.css  estilos
+assets/css/style.css  cópia de referência (o CSS ativo está inline no index.html)
 assets/js/            main.js, gsap.min.js, ScrollTrigger.min.js
 assets/fonts/         Sora e Geist (woff2)
 assets/img/           fotos, logo e og.jpg (1200×630)
@@ -31,7 +31,8 @@ sem Build/Install Command, sem Output Directory.
 - Adicionados `vercel.json`, `.gitignore` e este README.
 - Atualização pelo `integra-saude-lpsatt.zip`: no mobile, barra fixa de WhatsApp, topo reorganizado e parallax desligado.
 - `style.css` e `main.js` referenciados com `?v=` no `index.html`: `/assets/` tem cache imutável de 1 ano, então sem isso quem já abriu a página continuaria com os arquivos antigos. Trocar o valor de `?v=` a cada mudança nesses arquivos.
-- Fora o acima, layout, copy, CSS e JS como vieram do zip.
+- **Performance (07/11/2026):** CSS inline no `<head>` (sai a requisição que bloqueava a renderização; `assets/css/style.css` ficou só como cópia de referência, **editar o CSS dentro do `index.html`**); imagens com `srcset`/`sizes` e variantes `-400`/`-640`/`-960.webp` geradas dos originais (qualidade 80); foto do topo com `fetchpriority="high"` e `preload`; preload da fonte do título; `ScrollTrigger.refresh()` agrupado em vez de um por imagem carregada.
+- Fora o acima, visual, layout, copy, CSS e JS como vieram do zip.
 
 ## Pendências
 
@@ -41,4 +42,4 @@ sem Build/Install Command, sem Output Directory.
 - **Copy:** validação pelo Dr. Denner.
 - **WhatsApp:** testar o número em um aparelho real.
 
-Última atualização: 06/11/2026
+Última atualização: 07/11/2026
