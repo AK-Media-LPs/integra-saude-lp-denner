@@ -33,6 +33,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this.startMotion();
     this.setupBar();
+    this.setupSym();
     var me = this; setTimeout(function () { me.drawLink(false); }, 600);
     if (typeof IntersectionObserver === 'undefined') return;
     var self = this;
@@ -42,6 +43,31 @@ class Component extends DCLogic {
     }, { rootMargin: '-40% 0px -40% 0px' });
     items.forEach(function (i) { self.io.observe(i); });
     var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  setupSym() {
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.fcard'));
+    var panel = document.querySelector('.spanel'); if (!cards.length || !panel) return;
+    var n = panel.querySelector('.sn'), t = panel.querySelector('.sttl'), a = panel.querySelector('.sbtn');
+    var base = a.getAttribute('data-base');
+    var upd = function () {
+      var sel = cards.filter(function (c) { return c.classList.contains('sel'); });
+      n.textContent = sel.length;
+      panel.classList.toggle('on', sel.length > 0);
+      t.textContent = sel.length ? (sel.length === 1 ? '1 sinal marcado' : sel.length + ' sinais marcados') : 'Nenhum sinal marcado ainda';
+      if (!sel.length) { a.href = base; return; }
+      var msg = 'Olá! Vim pela página do Dr. Denner e gostaria de agendar uma consulta. Tenho sentido:\n' + sel.map(function (c) { return '- ' + c.getAttribute('data-short'); }).join('\n');
+      a.href = base.split('?')[0] + '?text=' + encodeURIComponent(msg);
+    };
+    cards.forEach(function (c) {
+      var flip = function () { c.classList.toggle('flip'); };
+      c.addEventListener('click', function (e) { if (e.target.closest('.bsel')) return; flip(); });
+      c.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.bsel')) { e.preventDefault(); flip(); } });
+      c.querySelector('.bsel').addEventListener('click', function (e) {
+        e.stopPropagation(); c.classList.toggle('sel'); c.setAttribute('aria-pressed', c.classList.contains('sel') ? 'true' : 'false'); upd();
+        if (window.gsap) window.gsap.fromTo(n, { scale: 1.5 }, { scale: 1, duration: .5, ease: 'back.out(3)' });
+      });
+    });
+    upd();
   }
   componentDidUpdate(pp, ps) { if (ps && ps.tr !== this.state.tr) this.pulseTr(); }
   componentWillUnmount() {
@@ -145,6 +171,11 @@ class Component extends DCLogic {
     rev('#sintomas p:not(:last-child), #sintomas h2', {}, '#sintomas h2');
     $('.sym').forEach(function (s) { g.from(s, { x: -70, autoAlpha: 0, duration: .8, ease: 'power3.out', scrollTrigger: { trigger: s, start: 'top 90%', once: true } }); });
     rev('#sintomas ul + p', {});
+    rev('#sintomas .sint', {}, '#sintomas h2');
+    g.fromTo('#sintomas h2 .mt', { '--mx': 0 }, { '--mx': 1, duration: .8, ease: 'power2.inOut', delay: .3, scrollTrigger: { trigger: '#sintomas h2', start: 'top 85%', once: true } });
+    g.from('.fcard', { y: 80, rotateX: -18, autoAlpha: 0, duration: .9, ease: 'power3.out', stagger: .1, scrollTrigger: { trigger: '.sgrid', start: 'top 85%', once: true,
+      onEnter: function () { var f = document.querySelector('.fcard .fin2'); if (f) g.to(f, { rotateY: 28, duration: .45, yoyo: true, repeat: 1, ease: 'power2.inOut', delay: 1.3, clearProps: 'transform', onComplete: function () { f.removeAttribute('style'); delete f._gsap; } }); } } });
+    g.from('.spanel', { y: 40, autoAlpha: 0, duration: .8, ease: 'power3.out', scrollTrigger: { trigger: '.spanel', start: 'top 92%', once: true } });
     var hp = $('#sintomas .hand path'), ht = g.timeline({ scrollTrigger: { trigger: '#sintomas .hand', start: 'top 80%', once: true } });
     hp.forEach(function (p, i) { var L = p.getTotalLength(); g.set(p, { strokeDasharray: L, strokeDashoffset: L }); ht.to(p, { strokeDashoffset: 0, duration: i ? .6 : 2, ease: 'power2.inOut' }, i ? 1.2 : 0); });
     ht.from('#sintomas .hand .pt', { scale: 0, transformOrigin: '50% 50%', duration: .5, ease: 'back.out(3)', stagger: .12, clearProps: 'transform' }, 1.4);
@@ -162,7 +193,7 @@ class Component extends DCLogic {
     g.from('.det > *', { y: 60, autoAlpha: 0, duration: .9, ease: 'power3.out', stagger: .15, scrollTrigger: { trigger: '.det', start: 'top 90%', once: true } });
     ST.create({ trigger: t5, start: 'top 60%', end: 'bottom 20%', onToggle: function (s) {
       clearInterval(self5.cyc);
-      if (s.isActive && !self5.touched) self5.cyc = setInterval(function () { self5.setState({ tr: (self5.state.tr + 1) % 5, auto: true }); }, 3600);
+      if (s.isActive && !self5.touched) self5.cyc = setInterval(function () { self5.setState({ tr: (self5.state.tr + 1) % 8, auto: true }); }, 3600);
     } });
     ST.addEventListener('refresh', function () { self5.drawLink(false); });
 
@@ -235,9 +266,9 @@ class Component extends DCLogic {
     r.setProperty('--verde', this.props.verde ?? '#3FB8A5');
     r.setProperty('--laranja', this.props.laranja ?? '#F26B21');
     var sym = this.state.sym, tr = this.state.tr, self = this;
-    var ptTr = [1, 4, 2, 3, 0][tr];
-    var v = { gx: [52.5, 62.5, 51.6, 26.3, 34.4][tr], gy: [88.8, 39.5, 67.4, 67, 30.2][tr] };
-    for (var i = 0; i < 5; i++) {
+    var ptTr = tr;
+    var v = { gx: [52.5, 62.5, 30, 66, 51.6, 34.4, 48.4, 26.3][tr], gy: [88.8, 52, 81, 78, 68, 30.2, 22, 67][tr] };
+    for (var i = 0; i < 8; i++) {
       v['s' + i] = i === sym ? 'at' : (i < sym ? 'lit' : '');
       v['p' + i] = i === sym ? 'on' : (i < sym ? 'lit' : '');
       v['q' + i] = i === ptTr ? 'on' : '';
