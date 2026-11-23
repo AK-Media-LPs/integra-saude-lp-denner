@@ -258,7 +258,20 @@ class Component extends DCLogic {
     var a = document.querySelector('.tp.on'); if (!a) return;
     if (a.nextElementSibling !== d) a.parentNode.insertBefore(d, a.nextSibling);
     d.classList.add('inl');
-    if (user) { var r = a.getBoundingClientRect(); if (r.top < 80 || r.bottom > window.innerHeight - 220) a.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    // o ST.refresh do ResizeObserver (mudança de altura ao mover a .dtx) cancela rolagem suave em andamento:
+    // rola depois dele e, se outro refresh cair logo em seguida, rola de novo
+    if (user) {
+      var ST = window.ScrollTrigger, me = this;
+      var out = function () { var r = a.getBoundingClientRect(); return r.top < 80 || r.bottom > window.innerHeight - 220; };
+      var go = function () { if (out()) a.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+      var onRf = function () { setTimeout(go, 30); };
+      clearTimeout(this.sDet); clearTimeout(this.sDetEnd);
+      if (ST && this.sDetRf) ST.removeEventListener('refresh', this.sDetRf);
+      this.sDet = setTimeout(go, 320);
+      if (ST) { this.sDetRf = onRf; ST.addEventListener('refresh', onRf); }
+      // garantia: se a rolagem suave foi interrompida, termina sem animação
+      this.sDetEnd = setTimeout(function () { if (ST) ST.removeEventListener('refresh', onRf); me.sDetRf = null; if (out()) a.scrollIntoView({ block: 'center' }); }, 1600);
+    }
   }
   pulseTr() {
     this.placeDet(!!this.touched);
