@@ -33,6 +33,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this.startMotion();
     this.setupBar();
+    var meD = this; this.placeDet(false); window.addEventListener('resize', function () { meD.placeDet(false); });
     this.setupSym();
     var me = this; setTimeout(function () { me.drawLink(false); }, 600);
     if (typeof IntersectionObserver === 'undefined') return;
@@ -190,10 +191,10 @@ class Component extends DCLogic {
     tl5.from('.hs', { scale: 0, duration: .55, ease: 'back.out(3)', stagger: .09 }, .7)
       .from('.cl > *', { x: mob ? 0 : -90, y: mob ? 24 : 0, autoAlpha: 0, duration: .75, ease: 'power3.out', stagger: .1 }, .3)
       .from('.cr > *', { x: mob ? 0 : 90, y: mob ? 24 : 0, autoAlpha: 0, duration: .75, ease: 'power3.out', stagger: .1 }, .3);
-    g.from('.det > *', { y: 60, autoAlpha: 0, duration: .9, ease: 'power3.out', stagger: .15, scrollTrigger: { trigger: '.det', start: 'top 90%', once: true } });
+    g.from(mob ? '.det > :not(.dtx)' : '.det > *', { y: 60, autoAlpha: 0, duration: .9, ease: 'power3.out', stagger: .15, scrollTrigger: { trigger: '.det', start: 'top 90%', once: true } });
     ST.create({ trigger: t5, start: 'top 60%', end: 'bottom 20%', onToggle: function (s) {
       clearInterval(self5.cyc);
-      if (s.isActive && !self5.touched) self5.cyc = setInterval(function () { self5.setState({ tr: (self5.state.tr + 1) % 8, auto: true }); }, 3600);
+      if (s.isActive && !self5.touched && !mob) self5.cyc = setInterval(function () { self5.setState({ tr: (self5.state.tr + 1) % 8, auto: true }); }, 3600);
     } });
     ST.addEventListener('refresh', function () { self5.drawLink(false); });
 
@@ -250,7 +251,17 @@ class Component extends DCLogic {
       else g.set(p, { strokeDasharray: 'none', strokeDashoffset: 0 });
     }
   }
+  placeDet(user) {
+    var d = document.querySelector('.dtx'), det = document.querySelector('.det');
+    if (!d || !det) return;
+    if (!window.matchMedia('(max-width:900px)').matches) { if (d.parentNode !== det) det.insertBefore(d, det.firstChild); d.classList.remove('inl'); return; }
+    var a = document.querySelector('.tp.on'); if (!a) return;
+    if (a.nextElementSibling !== d) a.parentNode.insertBefore(d, a.nextSibling);
+    d.classList.add('inl');
+    if (user) { var r = a.getBoundingClientRect(); if (r.top < 80 || r.bottom > window.innerHeight - 220) a.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  }
   pulseTr() {
+    this.placeDet(!!this.touched);
     this.drawLink(true);
     if (!this.booted) return;
     var g = window.gsap;
